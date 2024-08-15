@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Project;
+use Yajra\DataTables\DataTables;
+
+class ProjectController extends Controller
+{
+    public function index()
+    {
+        return view('projects.index');
+    }
+
+    public function getProjects()
+    {
+        $projects = Project::with('tasks')->select(['id', 'name', 'description']);
+        
+        return DataTables::of($projects)
+            ->addColumn('tasks', function (Project $project) {
+                return $project->tasks->count();
+            })
+            ->addColumn('action', function ($row) {
+                return '<a href="' . route('projects.edit', $row->id) . '" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="' . route('projects.tasks.index', $row->id) . ' " data-task_id="' . $row->id . '" class="btn btn-secondary btn-sm">Manage Tasks</a>
+                        <a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-danger btn-sm deleteProject">Delete</a>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+
+    public function create()
+    {
+        return view('projects.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+        ]);
+
+        auth()->user()->projects()->create($request->all());
+
+        $notification = array(
+            'message' => 'Project Created Successfully',
+            'alert-type' => 'success'
+        );
+
+
+        return redirect()->route('projects.index')->with($notification);
+    }
+
+    public function show(Project $project)
+    {
+        return view('projects.show', compact('project'));
+    }
+
+    public function edit(Project $project)
+    {
+        return view('projects.edit', compact('project'));
+    }
+
+    public function update(Request $request, Project $project)
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+        ]);
+
+        $project->update($request->all());
+
+        $notification = array(
+            'message' => 'Project Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('projects.index')->with($notification);
+    }
+
+    public function destroy(Project $project)
+    {
+        $project->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Project deleted successfully.'
+        ]);
+    }
+}
