@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Subtasks for Task: {{ $task->name }}</h1>
+        <h1>Task Name: {{ $task->name }}</h1>
         <a href="{{ route('projects.tasks.subtasks.create', [$task->project_id, $task->id]) }}" class="btn btn-primary">Add Subtask</a>
         <a href="{{ route('projects.tasks.index', [$task->project_id, $task->id]) }}" class="btn btn-primary">Tasks</a>
         <a href="{{ route('projects.index') }}" class="btn btn-primary">Projects</a>

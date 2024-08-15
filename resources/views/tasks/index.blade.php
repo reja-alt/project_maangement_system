@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Tasks for Project: {{ $project->name }}</h1>
+        <h1>Project Name: {{ $project->name }}</h1>
         <a href="{{ route('projects.tasks.create', $project->id) }}" class="btn btn-primary">Add Task</a>
         <a href="{{ route('projects.index') }}" class="btn btn-primary">Projects</a>
 
