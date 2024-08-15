@@ -6,10 +6,57 @@
     <title>Project Management</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <!-- Toastr CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
     <!-- Datatable -->
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .report-header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .task-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        .task-card .card-title {
+            color: #34495e;
+            font-weight: 600;
+        }
+        .task-card .btn-link {
+            color: #3498db;
+            font-weight: 600;
+        }
+        .subtask-header {
+            color: #2980b9;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        .list-group-item {
+            border: none;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-bottom: 8px;
+        }
+        .badge-secondary {
+            background-color: #7f8c8d;
+        }
+        .card-text {
+            color: #7f8c8d;
+        }
+    </style>
 </head>
 <body>
     @include('layouts.partial.header')
@@ -18,6 +65,7 @@
     </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 

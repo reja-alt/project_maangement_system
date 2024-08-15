@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::get('projects/{project}/tasks-data', [TaskController::class, 'getTasks'])->name('tasks.data');    
     Route::resource('projects.tasks.subtasks', SubtaskController::class);
     Route::get('projects/{project}/tasks/{task}/subtasks-data', [SubtaskController::class, 'getSubtasks'])->name('subtasks.data');
-    Route::get('projects/{project}/report', [ProjectController::class, 'report'])->name('projects.report');
-});
+    Route::get('/reports/form/{projectId}', [ProjectController::class, 'showReportForm'])->name('report.form');
+    Route::get('/reports/generate/{projectId}', [ProjectController::class, 'generateAndDisplayReport'])->name('report.generate');});
 
 require __DIR__.'/auth.php';

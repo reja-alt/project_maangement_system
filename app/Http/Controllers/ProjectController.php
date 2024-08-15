@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Yajra\DataTables\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProjectController extends Controller
 {
@@ -24,6 +25,8 @@ class ProjectController extends Controller
             ->addColumn('action', function ($row) {
                 return '<a href="' . route('projects.edit', $row->id) . '" class="btn btn-primary btn-sm">Edit</a>
                         <a href="' . route('projects.tasks.index', $row->id) . ' " data-task_id="' . $row->id . '" class="btn btn-secondary btn-sm">Manage Tasks</a>
+                        <a href="' . route('report.form', $row->id) . ' " class="btn btn-info btn-sm">Show</a>
+                        <a href="' . route('report.generate', $row->id) . ' " class="btn btn-success btn-sm">Generate Report</a>
                         <a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-danger btn-sm deleteProject">Delete</a>';
             })
             ->rawColumns(['action'])
@@ -89,5 +92,20 @@ class ProjectController extends Controller
             'success' => true,
             'message' => 'Project deleted successfully.'
         ]);
+    }
+
+    public function showReportForm($projectId)
+    {
+        $project = Project::with('tasks.subtasks')->findOrFail($projectId);
+        return view('projects.report', ['project' => $project]);
+    }
+
+    public function generateAndDisplayReport($projectId)
+    {
+        $project = Project::with('tasks.subtasks')->findOrFail($projectId);
+        $pdf = Pdf::loadView('projects.report', ['project' => $project]);
+
+        // Return the PDF as a response
+        return $pdf->download('project_report.pdf');
     }
 }
