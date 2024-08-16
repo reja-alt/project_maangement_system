@@ -1,53 +1,61 @@
 @extends('layouts.main')
-
+@push('css')
+<style>
+    
+</style>
+@endpush
 @section('content')
 <div class="container">
     <!-- Go Back Button -->
     <div class="mb-4">
         <a href="{{ route('projects.index') }}" class="btn btn-secondary mt-2">
-            <i class="fas fa-arrow-left"></i> Go Back to Project
+            <i class="fas fa-arrow-left"></i> Back to Projects
         </a>
     </div>
 
     <!-- Report Header -->
-    <div class="report-header">
-        <h1>Project Report</h1>
-        <h2>{{ $project->name }}</h2>
-        <p>Generated on: {{ now()->format('F j, Y') }}</p>
+    <div class="report-header text-center mb-5">
+        <h1 class="display-4">{{ $project->name }} Report</h1>
+        <p class="lead">Generated on: {{ now()->format('F j, Y') }}</p>
     </div>
 
     <!-- Task Overview -->
     <div class="task-overview">
-        @foreach ($project->tasks as $task)
-            <div class="card task-card mb-4">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title mb-0">{{ $task->name }}</h4>
-                        <button class="btn btn-link text-decoration-none" data-toggle="collapse" data-target="#collapse-{{ $task->id }}" aria-expanded="false" aria-controls="collapse-{{ $task->id }}">
-                            <i class="fas fa-chevron-down"></i> View Subtasks
-                        </button>
-                    </div>
-                    <div class="collapse mt-3" id="collapse-{{ $task->id }}">
-                        <p class="card-text">{{ $task->description }}</p>
-                        @if ($task->subtasks->count())
-                            <div class="subtask-list">
-                                <h5 class="subtask-header">Subtasks</h5>
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($task->subtasks as $subtask)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>{{ $subtask->name }}</span>
-                                            <span class="badge badge-secondary">Subtask</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @else
-                            <p class="text-muted">No subtasks available.</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        @endforeach
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Task Description</th>
+                        <th>Subtasks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($project->tasks as $task)
+                        <tr>
+                            <td>
+                                <strong>{{ $task->name }}</strong>
+                            </td>
+                            <td>{{ $task->description }}</td>
+                            <td>
+                                @if ($task->subtasks->count())
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach ($task->subtasks as $subtask)
+                                            <li>
+                                                <span class="badge badge-secondary">{{ $subtask->name }}</span>
+                                                <small class="text-muted">{{ $subtask->description }}</small>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <span class="text-muted">No subtasks available.</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection

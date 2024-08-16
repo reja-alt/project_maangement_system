@@ -97,7 +97,7 @@ class ProjectController extends Controller
     public function showReportForm($projectId)
     {
         $project = Project::with('tasks.subtasks')->findOrFail($projectId);
-        return view('projects.report', ['project' => $project]);
+        return view('projects.show', ['project' => $project]);
     }
 
     public function generateAndDisplayReport($projectId)
