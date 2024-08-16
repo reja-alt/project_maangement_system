@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Task;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -93,5 +95,63 @@ class TaskController extends Controller
             'success' => true,
             'message' => 'Task deleted successfully.'
         ]);
+    }
+
+    public function import(Request $request, $projectId)
+    {
+        $validator = Validator::make($request->all(), [
+            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        try {
+            $file = $request->file('csv_file');
+            $data = array_map('str_getcsv', file($file->getRealPath()));
+            $header = array_shift($data); // Remove and store the header row
+
+            if ($header !== ['name', 'description']) {
+                return redirect()->back()->with('error', 'Invalid CSV format. Please ensure the header is "name,description".');
+            }
+
+            DB::beginTransaction();
+
+            foreach ($data as $row) {
+                $row = array_combine($header, $row);
+
+                // Validate each row
+                $taskValidator = Validator::make($row, [
+                    'name' => 'required|string|max:255',
+                    'description' => 'required|string|max:1000',
+                ]);
+
+                if ($taskValidator->fails()) {
+                    DB::rollBack();
+                    return redirect()->back()->withErrors($taskValidator)->withInput();
+                }
+
+                $project = Project::find($projectId); 
+
+                if ($project) {
+                    $project->tasks()->create([
+                        'name' => $row['name'],
+                        'description' => $row['description'],
+                    ]);
+                } else {
+                    DB::rollBack();
+                    return redirect()->back()->with('error', 'Project not found.');
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Tasks imported successfully.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'There was an error processing the file: ' . $e->getMessage());
+        }
     }
 }

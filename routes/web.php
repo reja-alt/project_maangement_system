@@ -18,6 +18,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('projects.tasks.subtasks', SubtaskController::class);
     Route::get('projects/{project}/tasks/{task}/subtasks-data', [SubtaskController::class, 'getSubtasks'])->name('subtasks.data');
     Route::get('/reports/form/{projectId}', [ProjectController::class, 'showReportForm'])->name('report.form');
-    Route::get('/reports/generate/{projectId}', [ProjectController::class, 'generateAndDisplayReport'])->name('report.generate');});
+    Route::get('/reports/generate/{projectId}', [ProjectController::class, 'generateAndDisplayReport'])->name('report.generate');
+
+    Route::post('/tasks/import/{project}', [TaskController::class, 'import'])->name('tasks.import');
+});
 
 require __DIR__.'/auth.php';

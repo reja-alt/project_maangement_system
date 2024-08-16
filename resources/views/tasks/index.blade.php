@@ -2,11 +2,56 @@
 
 @section('content')
     <div class="container">
-        <h1>Project Name: {{ $project->name }}</h1>
-        <a href="{{ route('projects.tasks.create', $project->id) }}" class="btn btn-primary">Add Task</a>
-        <a href="{{ route('projects.index') }}" class="btn btn-primary">Projects</a>
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        <!-- Alerts for Success and Error Messages -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @elseif(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
 
-        <table id="tasks-table" class="display">
+        <!-- CSV Import Form -->
+        <div class="mb-4">
+            <h4 class="mb-3">Import Tasks from CSV</h4>
+            <form action="{{ route('tasks.import', $project->id) }}" method="POST" enctype="multipart/form-data" class="form-inline">
+                @csrf
+                <div class="form-group mb-2">
+                    <label for="csv_file" class="sr-only">CSV File</label>
+                    <input type="file" name="csv_file" id="csv_file" class="form-control-file" required>
+                </div>
+                <button type="submit" class="btn btn-success mb-2">Import Tasks</button>
+            </form>
+        </div>
+
+        <!-- Add Task Button -->
+        <div class="mb-4">
+            <a href="{{ route('projects.tasks.create', $project->id) }}" class="btn btn-primary">Add Task</a>
+            <a href="{{ route('projects.index') }}" class="btn btn-info">Projects</a>
+        </div>
+
+        <!-- Tasks Table -->
+        <table id="tasks-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Task Name</th>
@@ -62,7 +107,7 @@
                                 
                                 Swal.fire({
                                     title: 'Deleted!',
-                                    text: 'Your Task has been deleted.',
+                                    text: 'Your task has been deleted.',
                                     icon: 'success',
                                     confirmButtonText: 'OK'
                                 });
@@ -70,7 +115,7 @@
                             error: function() {
                                 Swal.fire({
                                     title: 'Error!',
-                                    text: 'There was a problem deleting the project. Please try again later.',
+                                    text: 'There was a problem deleting the task. Please try again later.',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
