@@ -31,6 +31,11 @@
             </div>
         @endif
 
+        <!-- Project Name Header -->
+        <div class="mb-4">
+            <h2 class="text-primary">Project Name:  {{ $project->name }}</h2>
+        </div>
+
         <!-- CSV Import Form -->
         <div class="mb-4">
             <h4 class="mb-3">Import Tasks from CSV</h4>
@@ -46,7 +51,7 @@
 
         <!-- Add Task Button -->
         <div class="mb-4">
-            <a href="{{ route('projects.tasks.create', $project->id) }}" class="btn btn-primary">Add Task</a>
+            <a href="{{ route('projects.tasks.create', $project->id) }}" class="btn btn-success">Add Task</a>
             <a href="{{ route('projects.index') }}" class="btn btn-info">Projects</a>
         </div>
 

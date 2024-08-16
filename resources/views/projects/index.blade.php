@@ -2,8 +2,10 @@
 
 @section('content')
     <div class="container">
-        <h1>Projects</h1>
-        <a href="{{ route('projects.create') }}" class="btn btn-primary">Create Project</a>
+        <div class="mb-4">
+            <h2 class="text-primary">Projects</h2>
+        </div>
+        <a href="{{ route('projects.create') }}" class="btn btn-success mb-2">Create Project</a>
 
         <table id="projects-table" class="display">
             <thead>

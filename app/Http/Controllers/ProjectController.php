@@ -23,11 +23,11 @@ class ProjectController extends Controller
                 return $project->tasks->count();
             })
             ->addColumn('action', function ($row) {
-                return '<a href="' . route('projects.edit', $row->id) . '" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="' . route('projects.tasks.index', $row->id) . ' " data-task_id="' . $row->id . '" class="btn btn-secondary btn-sm">Manage Tasks</a>
-                        <a href="' . route('report.form', $row->id) . ' " class="btn btn-info btn-sm">Show</a>
-                        <a href="' . route('report.generate', $row->id) . ' " class="btn btn-success btn-sm">Generate Report</a>
-                        <a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-danger btn-sm deleteProject">Delete</a>';
+                return '<a href="' . route('projects.edit', $row->id) . '" class="btn btn-primary btn-sm mb-1">Edit</a>
+                        <a href="' . route('projects.tasks.index', $row->id) . ' " data-task_id="' . $row->id . '" class="btn btn-secondary btn-sm mb-1">Manage Tasks</a>
+                        <a href="' . route('report.form', $row->id) . ' " class="btn btn-info btn-sm mb-1">Show</a>
+                        <a href="' . route('report.generate', $row->id) . ' " class="btn btn-success btn-sm mb-1">Generate Report</a>
+                        <a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-danger btn-sm deleteProject mb-1">Delete</a>';
             })
             ->rawColumns(['action'])
             ->make(true);

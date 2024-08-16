@@ -2,10 +2,14 @@
 
 @section('content')
     <div class="container">
-        <h1>Task Name: {{ $task->name }}</h1>
-        <a href="{{ route('projects.tasks.subtasks.create', [$task->project_id, $task->id]) }}" class="btn btn-primary">Add Subtask</a>
-        <a href="{{ route('projects.tasks.index', [$task->project_id, $task->id]) }}" class="btn btn-primary">Tasks</a>
-        <a href="{{ route('projects.index') }}" class="btn btn-primary">Projects</a>
+        <div class="mb-4">
+            <h2 class="text-primary">Task Name:  {{ $task->name }}</h2>
+        </div>
+        <div class="mb-2">
+            <a href="{{ route('projects.tasks.subtasks.create', [$task->project_id, $task->id]) }}" class="btn btn-success">Add Subtask</a>
+            <a href="{{ route('projects.tasks.index', [$task->project_id, $task->id]) }}" class="btn btn-info">Tasks</a>
+            <a href="{{ route('projects.index') }}" class="btn btn-primary">Projects</a>
+        </div>
 
         <table id="subtasks-table" class="display">
             <thead>

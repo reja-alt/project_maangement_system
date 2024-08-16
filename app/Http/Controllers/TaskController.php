@@ -28,9 +28,9 @@ class TaskController extends Controller
                 return $task->subtasks->count();
             })
             ->addColumn('action', function ($task) use ($id) {
-                return '<a href="' . route('projects.tasks.edit', [$id, $task->id]) . '" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="' . route('projects.tasks.subtasks.index', [$id, $task->id]) . '" class="btn btn-secondary btn-sm">Manage Subtasks</a>
-                        <a href="javascript:void(0)" data-id="' . $task->id . '" class="btn btn-danger btn-sm deleteTask">Delete</a>';
+                return '<a href="' . route('projects.tasks.edit', [$id, $task->id]) . '" class="btn btn-primary btn-sm mb-1">Edit</a>
+                        <a href="' . route('projects.tasks.subtasks.index', [$id, $task->id]) . '" class="btn btn-secondary btn-sm mb-1">Manage Subtasks</a>
+                        <a href="javascript:void(0)" data-id="' . $task->id . '" class="btn btn-danger btn-sm deleteTask mb-1">Delete</a>';
             })
             ->rawColumns(['action'])
             ->make(true);

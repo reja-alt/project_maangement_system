@@ -22,20 +22,28 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Name</label>
                         <input type="text" class="form-control border border-primary" name="name" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        @error('name')
+                            <div class="alert alert-danger mt-1">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input type="email" class="form-control border border-primary" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        @error('email')
+                            <div class="alert alert-danger mt-1">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
                         <input type="password" name="password" class="form-control border border-primary" id="exampleInputPassword1">
+                        @error('password')
+                            <div class="alert alert-danger mt-1">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
                         <input type="password" name="password_confirmation" class="form-control border border-primary" id="exampleInputPassword1">
                     </div>
-                    <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>
                     <div class="d-grid">
                         <button class="btn btn-primary" type="submit">Sign Up</button>
                     </div>

@@ -2,7 +2,14 @@
 
 @section('content')
     <div class="container">
-        <h1>Edit Task for Project: {{ $project->name }}</h1>
+        <div class="mb-4">
+            <a href="{{ route('projects.tasks.index', $project->id) }}" class="btn btn-primary mt-2">
+                <i class="fas fa-arrow-left"></i> Go Back to Task
+            </a>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-primary">Edit Task for Project: {{ $project->name }}</h2>
+        </div>
 
         <form action="{{ route('projects.tasks.update', [$project->id, $task->id]) }}" method="POST">
             @csrf
